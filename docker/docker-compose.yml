@@ -1,19 +1,26 @@
 version: '3.3'
 services:
-  db:
+  redis:
+    image: "redis:alpine"
+    container_name: redis_server
+    ports:
+      - 6379:6379
+    command:
+      redis-server
+    volumes:
+      - $PWD/db_info/redis-data:/var/lib/redis
+      - $PWD/db_info/redis.conf:/usr/local/etc/redis/redis.conf
+
+  mysql:
     image: mysql
+    container_name: mysql_db
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: 'db'
+      MYSQL_DATABASE: 'my_crud'
       MYSQL_USER: 'maicol'
       MYSQL_PASSWORD: '123'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
     volumes:
-      - my-db:/var/lib/mysql
-    #  - ./init:/docker-entrypoint-initdb.d
-volumes:
-  my-db:
+       - $PWD/db_info/mysql_data:/var/lib/mysql

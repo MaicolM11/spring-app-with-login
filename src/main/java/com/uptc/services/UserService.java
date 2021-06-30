@@ -11,13 +11,14 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import com.uptc.models.UserRole;
-import com.uptc.models.entities.ConfirmationToken;
+import com.uptc.models.entities.Token;
 import com.uptc.models.entities.User;
 
 import static com.uptc.utils.Messages.USER_NOT_FOUND;
 import static com.uptc.utils.Messages.EMAIL_IS_NOT_VALID;
 import static com.uptc.utils.Validations.isEmail;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,9 +26,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
+    private static final Long TIME_EXPIRED = Duration.ofMinutes(5).getSeconds();
+    
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
-    private final ConfirmationTokenService tokenService;
+    private final TokenService tokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -42,8 +45,8 @@ public class UserService implements UserDetailsService {
             userRepository.save(user);
             String token = UUID.randomUUID().toString();
 
-            ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(),
-                    LocalDateTime.now().plusMinutes(5), user);
+            Token confirmationToken = new Token(token, LocalDateTime.now(),
+                    TIME_EXPIRED, user.getId());
 
             tokenService.saveConfirmationToken(confirmationToken);
 
@@ -57,8 +60,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByEmail(email).isPresent();
     }
 
-    public void enableUser(String email) {
-        userRepository.enableUser(email);
+    public void enableUser(Long id) {
+        userRepository.enableUser(id);
     }
 
 }

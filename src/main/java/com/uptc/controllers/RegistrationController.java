@@ -1,7 +1,7 @@
 package com.uptc.controllers;
 
 import com.uptc.models.entities.User;
-import com.uptc.services.ConfirmationTokenService;
+import com.uptc.services.TokenService;
 import com.uptc.services.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class RegistrationController {
     
     private final UserService userService;
-    private final ConfirmationTokenService tokenService;
+    private final TokenService tokenService;
 
     @PostMapping
     public String register(@RequestBody User user){
@@ -28,9 +28,9 @@ public class RegistrationController {
 
     @GetMapping(path = "/confirm")
     public String confirm(@RequestParam("token") String token) {
-        String email = tokenService.confirmToken(token);    // email of user
-        userService.enableUser(email);
-        return email;
+        Long id = tokenService.confirmToken(token);    // email of user
+        userService.enableUser(id);
+        return "confirmed!";
     }
 
 }
