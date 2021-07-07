@@ -3,7 +3,8 @@
 ## Topics
 - Spring Web
 - Spring Security
-- Spring JPA with Mysql
+- Spring Data (JPA Mysql - Redis)
+- Spring Caching with Redis
 - Spring Mail
 - Docker (db, jar)
 

@@ -1,4 +1,4 @@
-package com.uptc.security.config;
+package com.uptc.config.security;
 
 import com.uptc.services.UserService;
 

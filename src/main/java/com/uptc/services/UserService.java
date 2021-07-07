@@ -18,15 +18,11 @@ import static com.uptc.utils.Messages.USER_NOT_FOUND;
 import static com.uptc.utils.Messages.EMAIL_IS_NOT_VALID;
 import static com.uptc.utils.Validations.isEmail;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-
-    private static final Long TIME_EXPIRED = Duration.ofMinutes(5).getSeconds();
     
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
@@ -43,11 +39,9 @@ public class UserService implements UserDetailsService {
             user.setUserRole(UserRole.USER);
             user.setPassword(encoder.encode(user.getPassword()));
             userRepository.save(user);
+           
             String token = UUID.randomUUID().toString();
-
-            Token confirmationToken = new Token(token, LocalDateTime.now(),
-                    TIME_EXPIRED, user.getId());
-
+            Token confirmationToken = new Token(token, user.getId());
             tokenService.saveConfirmationToken(confirmationToken);
 
             // TODO: send email 
@@ -60,7 +54,8 @@ public class UserService implements UserDetailsService {
         return userRepository.findUserByEmail(email).isPresent();
     }
 
-    public void enableUser(Long id) {
+    public void enableUser(String token) {
+        Long id = tokenService.confirmToken(token);
         userRepository.enableUser(id);
     }
 

@@ -1,7 +1,7 @@
 package com.uptc.models.entities;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Duration;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -15,16 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Token implements Serializable {
 
+    private static final Long TIME_EXPIRED = Duration.ofMinutes(1).getSeconds();
+
     @Id private String token;
-    private LocalDateTime createdAt;
-    @TimeToLive private Long expiresAt;         // ttl, autoremove in redis caché
-    private LocalDateTime confirmedAt;
+    @TimeToLive private Long expiresAt = TIME_EXPIRED;         // ttl, autoremove in redis caché
     private Long userId;
 
-    public Token(String token, LocalDateTime createdAt, Long expiresAt, Long user) {
+    public Token(String token, Long user) {
         this.token = token;
-        this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
         this.userId = user;
     }
 

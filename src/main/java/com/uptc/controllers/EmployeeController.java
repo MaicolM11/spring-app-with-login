@@ -21,9 +21,11 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping(EmployeeController.PATH_EMPLOYEES_CONTROL)
 @RequiredArgsConstructor
 public class EmployeeController {
+
+    static final String PATH_EMPLOYEES_CONTROL = "/api/employees";
 
     private final EmployeeService employeeService;
 
@@ -49,7 +51,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable("id") Long employeeId) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId) {
         employeeService.deleteEmployee(employeeId);
         return new ResponseEntity<String>("All ok", OK);
     }

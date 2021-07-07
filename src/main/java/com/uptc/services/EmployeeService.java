@@ -63,7 +63,7 @@ public class EmployeeService {
     }
 
     public boolean existEmail(String email) {
-        return employeeRepository.findEmployeeByEmail(email).isPresent();
+        return employeeRepository.findByEmail(email).isPresent();
     }
 
 }

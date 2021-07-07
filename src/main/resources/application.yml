@@ -2,7 +2,6 @@ server:
   port: 3000
   error:
     inlcude-message: always
-    include-binding-errors: always
     
 spring:
 

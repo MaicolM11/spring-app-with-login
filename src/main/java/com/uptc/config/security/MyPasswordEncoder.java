@@ -1,4 +1,4 @@
-package com.uptc.security;
+package com.uptc.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
