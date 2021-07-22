@@ -1,6 +1,7 @@
 package com.uptc.services;
 
 import com.uptc.repository.UserRepository;
+import com.uptc.utils.Validations;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +28,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final TokenService tokenService;
+    private final EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -44,7 +46,8 @@ public class UserService implements UserDetailsService {
             Token confirmationToken = new Token(token, user.getId());
             tokenService.saveConfirmationToken(confirmationToken);
 
-            // TODO: send email 
+            String link = "http://localhost:3000/register/confirm?token=" + token;
+            emailService.send(user.getEmail(), Validations.buildEmail(user.getFirstName(), link));
             return token;
         }
         throw new IllegalStateException(String.format(EMAIL_IS_NOT_VALID, user.getEmail()));

@@ -3,6 +3,10 @@ server:
   error:
     inlcude-message: always
     
+redis:
+  host: "127.0.0.1"
+  port: 6379
+
 spring:
 
   datasource:
@@ -19,3 +23,19 @@ spring:
     properties:
       hibernate: 
         dialect: org.hibernate.dialect.MySQL8Dialect
+  
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: monolegaltest@gmail.com
+    password: pass
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000

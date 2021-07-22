@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Token implements Serializable {
 
-    private static final Long TIME_EXPIRED = Duration.ofMinutes(1).getSeconds();
+    public static final Long TIME_EXPIRED = Duration.ofMinutes(1).getSeconds();
 
     @Id private String token;
     @TimeToLive private Long expiresAt = TIME_EXPIRED;         // ttl, autoremove in redis caché
