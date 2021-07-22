@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import com.uptc.exceptions.BadRequestException;
 import com.uptc.models.UserRole;
 import com.uptc.models.entities.Token;
 import com.uptc.models.entities.User;
@@ -24,7 +25,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    
+
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final TokenService tokenService;
@@ -37,20 +38,20 @@ public class UserService implements UserDetailsService {
     }
 
     public String registerUser(User user) {
-        if (!existEmail(user.getEmail()) && isEmail.test(user.getEmail())) {
-            user.setUserRole(UserRole.USER);
-            user.setPassword(encoder.encode(user.getPassword()));
-            userRepository.save(user);
-           
-            String token = UUID.randomUUID().toString();
-            Token confirmationToken = new Token(token, user.getId());
-            tokenService.saveConfirmationToken(confirmationToken);
+        if (existEmail(user.getEmail()) || !isEmail.test(user.getEmail()))
+            throw new BadRequestException(String.format(EMAIL_IS_NOT_VALID, user.getEmail()));
 
-            String link = "http://localhost:3000/register/confirm?token=" + token;
-            emailService.send(user.getEmail(), Validations.buildEmail(user.getFirstName(), link));
-            return token;
-        }
-        throw new IllegalStateException(String.format(EMAIL_IS_NOT_VALID, user.getEmail()));
+        user.setUserRole(UserRole.USER);
+        user.setPassword(encoder.encode(user.getPassword()));
+        userRepository.save(user);
+
+        String token = UUID.randomUUID().toString();
+        Token confirmationToken = new Token(token, user.getId());
+        tokenService.saveConfirmationToken(confirmationToken);
+
+        String link = "http://localhost:3000/register/confirm?token=" + token;
+        emailService.send(user.getEmail(), Validations.buildEmail(user.getFirstName(), link));
+        return token;
     }
 
     private boolean existEmail(String email) {

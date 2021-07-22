@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 import static com.uptc.utils.Messages.TOKEN_NOT_FOUND;
 
+import com.uptc.exceptions.ResourceNotFoundException;
+
 @Service
 @RequiredArgsConstructor
 public class TokenService {
@@ -30,7 +32,7 @@ public class TokenService {
      */
     public Long confirmToken(String token) {
         Token confirmationToken = tokenRepository.findById(token)
-                        .orElseThrow(()-> new IllegalStateException(TOKEN_NOT_FOUND));
+                        .orElseThrow(()-> new ResourceNotFoundException(TOKEN_NOT_FOUND));
         tokenRepository.deleteById(token);
         return confirmationToken.getUserId();
     }

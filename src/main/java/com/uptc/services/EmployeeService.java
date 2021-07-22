@@ -3,6 +3,7 @@ package com.uptc.services;
 import java.util.List;
 import java.util.Objects;
 
+import com.uptc.exceptions.BadRequestException;
 import com.uptc.exceptions.ResourceNotFoundException;
 import com.uptc.models.entities.Employee;
 import com.uptc.repository.EmployeeRepository;
@@ -22,7 +23,7 @@ public class EmployeeService {
     public Employee saveEmployee(Employee employee) {
         if (!existEmail(employee.getEmail()) && isEmail.test(employee.getEmail()))
             return employeeRepository.save(employee);
-        throw new IllegalStateException(
+        throw new BadRequestException(
                 String.format("The email %s is not valid or already exists", employee.getEmail()));
     }
 
@@ -31,7 +32,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
+        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with Id: "+ id));
     }
 
     public Employee updateEmployee(Employee employee, Long id) {
@@ -58,7 +59,7 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Long id) {
-        employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee", "Id", id));
+        employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with Id: "+ id));
         employeeRepository.deleteById(id);
     }
 
