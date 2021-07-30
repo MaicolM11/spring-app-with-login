@@ -1,4 +1,4 @@
-package com.uptc.repository;
+package com.uptc.repo;
 
 import java.util.Optional;
 

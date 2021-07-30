@@ -1,17 +1,17 @@
 package com.uptc.models.entities;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import com.uptc.models.UserRole;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,24 +28,38 @@ public class User implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private String firstName;
-    private String lastName;
+    private String fullname;
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    @ManyToMany 
+    @JoinTable( 
+        name = "users_roles", 
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(
+          name = "role_id", referencedColumnName = "id")) 
+    private Collection<Role> roles;
 
     private Boolean locked = false;
     private Boolean enabled = false;
 
+    public User(String fullname, String email, String password){
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
-        return Collections.singletonList(authority);
+        List<SimpleGrantedAuthority> authorities = roles.stream()
+                    .map(x-> x.getRole().toString())
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        return authorities;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

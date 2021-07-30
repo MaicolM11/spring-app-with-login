@@ -1,4 +1,4 @@
-package com.uptc.repository;
+package com.uptc.repo;
 
 import java.util.Optional;
 
@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Query("UPDATE User a SET a.enabled = TRUE WHERE a.id = ?1")
-    int enableUser(Long id);
+    int enableUser(Integer id);
 
 }

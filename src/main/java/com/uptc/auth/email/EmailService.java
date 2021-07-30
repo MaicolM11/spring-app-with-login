@@ -1,4 +1,4 @@
-package com.uptc.services;
+package com.uptc.auth.email;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

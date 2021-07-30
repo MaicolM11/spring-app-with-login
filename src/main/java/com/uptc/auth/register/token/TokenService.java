@@ -1,15 +1,12 @@
-package com.uptc.services;
-
-import com.uptc.models.entities.Token;
-import com.uptc.repository.TokenRepository;
+package com.uptc.auth.register.token;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import static com.uptc.utils.Messages.TOKEN_NOT_FOUND;
-
 import com.uptc.exceptions.ResourceNotFoundException;
+
+import static com.uptc.utils.Messages.TOKEN_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -19,20 +16,21 @@ public class TokenService {
 
     /***
      * Save a token in redis db
-     * @param token
+     * @param token string token to save
      */
     public void saveConfirmationToken(Token token) {
         tokenRepository.save(token);
     }
 
     /***
-     * Confirm register by token 
+     * Confirm register by token
+     * 
      * @param token string token to confirm
      * @return user id
      */
-    public Long confirmToken(String token) {
+    public Integer confirmToken(String token) {
         Token confirmationToken = tokenRepository.findById(token)
-                        .orElseThrow(()-> new ResourceNotFoundException(TOKEN_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(TOKEN_NOT_FOUND));
         tokenRepository.deleteById(token);
         return confirmationToken.getUserId();
     }

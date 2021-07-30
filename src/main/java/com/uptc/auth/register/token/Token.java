@@ -1,4 +1,4 @@
-package com.uptc.models.entities;
+package com.uptc.auth.register.token;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -19,9 +19,9 @@ public class Token implements Serializable {
 
     @Id private String token;
     @TimeToLive private Long expiresAt = TIME_EXPIRED;         // ttl, autoremove in redis caché
-    private Long userId;
+    private Integer userId;
 
-    public Token(String token, Long user) {
+    public Token(String token, Integer user) {
         this.token = token;
         this.userId = user;
     }

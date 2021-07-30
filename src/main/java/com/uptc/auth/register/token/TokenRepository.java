@@ -1,6 +1,4 @@
-package com.uptc.repository;
-
-import com.uptc.models.entities.Token;
+package com.uptc.auth.register.token;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

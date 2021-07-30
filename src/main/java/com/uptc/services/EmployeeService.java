@@ -6,7 +6,7 @@ import java.util.Objects;
 import com.uptc.exceptions.BadRequestException;
 import com.uptc.exceptions.ResourceNotFoundException;
 import com.uptc.models.entities.Employee;
-import com.uptc.repository.EmployeeRepository;
+import com.uptc.repo.EmployeeRepository;
 
 import org.springframework.stereotype.Service;
 
