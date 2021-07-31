@@ -28,10 +28,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
               //  .antMatchers("/api/**").hasRole("")
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .httpBasic();
     }
 
     @Override

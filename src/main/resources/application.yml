@@ -22,12 +22,12 @@ spring:
     properties:
       hibernate: 
         dialect: org.hibernate.dialect.MySQL8Dialect
-  
+
   mail:
     host: smtp.gmail.com
     port: 587
     username: monolegaltest@gmail.com
-    password: monolegal123
+    password: 
     properties:
       mail:
         smtp:

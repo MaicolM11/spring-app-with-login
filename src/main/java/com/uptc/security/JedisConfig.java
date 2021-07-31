@@ -3,6 +3,7 @@ package com.uptc.security;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
@@ -12,6 +13,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 
+@EnableCaching  // for api cache
 @Configuration
 public class JedisConfig {
 
@@ -44,11 +46,5 @@ public class JedisConfig {
             }
         });
     }  
-
-    /***
-     * mysql  
-     * redis 
-     * 
-     */
 
 }

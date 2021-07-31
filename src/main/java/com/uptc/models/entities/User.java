@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,13 +18,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
+@Getter
+@Setter
 public class User implements UserDetails {
     
     @Id
@@ -34,7 +37,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
-    @ManyToMany 
+    @ManyToMany(fetch = FetchType.EAGER) 
     @JoinTable( 
         name = "users_roles", 
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
@@ -60,7 +63,6 @@ public class User implements UserDetails {
         return authorities;
     }
 
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -77,13 +79,13 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    @Override
     public String getUsername() {
         return email;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return this.getEnabled();
+    }
+    
 }
