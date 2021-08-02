@@ -1,6 +1,4 @@
-package com.uptc.security;
-
-import com.uptc.services.UserService;
+package com.uptc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserDetailsService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -30,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
               //  .antMatchers("/api/**").hasRole("")
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .formLogin();
     }
 
     @Override

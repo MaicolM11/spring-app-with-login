@@ -8,5 +8,9 @@
 - Spring Mail
 - Docker (db, jar)
 
+- Monitoring and Alerting with Spring Actuator, Grafana & prometeus 
+- API Logs with AOP
+- Implement swagger for api doc
+
 ## Author
 - Michael Alejandro Muñoz

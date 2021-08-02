@@ -3,7 +3,7 @@ package com.uptc.utils;
 import java.time.Duration;
 import java.util.function.Predicate;
 
-import com.uptc.auth.register.token.Token;
+import com.uptc.models.token_register.Token;
 
 public class Validations {
 

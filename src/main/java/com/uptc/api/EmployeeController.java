@@ -1,9 +1,9 @@
-package com.uptc.controllers;
+package com.uptc.api;
 
 import java.util.List;
 
 import com.uptc.models.entities.Employee;
-import com.uptc.services.EmployeeService;
+import com.uptc.services.IEmployeeService;
 import com.uptc.utils.Url;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -37,12 +37,12 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
     } 
  */
 
- @RequiredArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(Url.EMPLOYE_RESOURCE)
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    private final IEmployeeService employeeService;
     
     @PostMapping
     @ResponseStatus(code = CREATED)

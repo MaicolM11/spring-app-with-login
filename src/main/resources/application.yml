@@ -27,7 +27,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: monolegaltest@gmail.com
-    password: 
+    password: monolegal123
     properties:
       mail:
         smtp:

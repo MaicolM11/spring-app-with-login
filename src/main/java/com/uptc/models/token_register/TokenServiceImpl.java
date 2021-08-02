@@ -1,4 +1,4 @@
-package com.uptc.auth.register.token;
+package com.uptc.models.token_register;
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import static com.uptc.utils.Messages.TOKEN_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
-public class TokenService {
+public class TokenServiceImpl implements ITokenService{
 
     private final TokenRepository tokenRepository;
 
@@ -18,6 +18,7 @@ public class TokenService {
      * Save a token in redis db
      * @param token string token to save
      */
+    @Override
     public void saveConfirmationToken(Token token) {
         tokenRepository.save(token);
     }
@@ -28,6 +29,7 @@ public class TokenService {
      * @param token string token to confirm
      * @return user id
      */
+    @Override
     public Integer confirmToken(String token) {
         Token confirmationToken = tokenRepository.findById(token)
                 .orElseThrow(() -> new ResourceNotFoundException(TOKEN_NOT_FOUND));

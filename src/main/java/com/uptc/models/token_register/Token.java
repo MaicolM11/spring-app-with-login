@@ -1,4 +1,4 @@
-package com.uptc.auth.register.token;
+package com.uptc.models.token_register;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Token implements Serializable {
 
-    public static final Long TIME_EXPIRED = Duration.ofMinutes(1).getSeconds();
+    public static final Long TIME_EXPIRED = Duration.ofMinutes(15).getSeconds();
 
     @Id private String token;
     @TimeToLive private Long expiresAt = TIME_EXPIRED;         // ttl, autoremove in redis caché

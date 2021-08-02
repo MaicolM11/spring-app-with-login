@@ -42,6 +42,7 @@ public class ApiExceptionHandler {
             org.springframework.dao.DuplicateKeyException.class,
             org.springframework.web.bind.MethodArgumentNotValidException.class,
             org.springframework.web.bind.support.WebExchangeBindException.class,
+            org.springframework.web.bind.MissingServletRequestParameterException.class,
             org.springframework.web.server.ServerWebInputException.class,
             org.springframework.http.converter.HttpMessageNotReadableException.class
     })

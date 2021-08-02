@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User implements UserDetails {
+public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +41,9 @@ public class User implements UserDetails {
     @JoinTable( 
         name = "users_roles", 
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-        inverseJoinColumns = @JoinColumn(
-          name = "role_id", referencedColumnName = "id")) 
+        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")) 
     private Collection<Role> roles;
 
-    private Boolean locked = false;
     private Boolean enabled = false;
 
     public User(String fullname, String email, String password){
@@ -54,7 +52,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    @Override
+    public static UserDetails build(User u) {
+        return new org.springframework.security.core.userdetails.User
+                        (u.email, u.password, u.enabled,true, true, true, u.getAuthorities());
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = roles.stream()
                     .map(x-> x.getRole().toString())
@@ -63,29 +65,4 @@ public class User implements UserDetails {
         return authorities;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.getEnabled();
-    }
-    
 }

@@ -1,4 +1,4 @@
-package com.uptc.security;
+package com.uptc.config;
 
 import javax.annotation.PostConstruct;
 

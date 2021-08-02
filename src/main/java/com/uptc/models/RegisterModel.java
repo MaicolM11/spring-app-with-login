@@ -1,4 +1,4 @@
-package com.uptc.auth.model;
+package com.uptc.models;
 
 import lombok.Getter;
 
