@@ -40,7 +40,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(Url.EMPLOYE_RESOURCE)
-public class EmployeeController {
+public class EmployeeResource {
 
     private final IEmployeeService employeeService;
     

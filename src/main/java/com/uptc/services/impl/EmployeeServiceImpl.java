@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import static com.uptc.utils.Messages.EMAIL_IS_NOT_VALID;
+import static com.uptc.utils.Messages.RESOURCE_NOT_FOUND;;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with Id: "+ id));
+        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(RESOURCE_NOT_FOUND, "Employee", "id", id)));
     }
 
     @Override
@@ -64,7 +65,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public void deleteEmployee(Long id) {
-        employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with Id: "+ id));
+        employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format(RESOURCE_NOT_FOUND, "Employee", "id", id)));
         employeeRepository.deleteById(id);
     }
     

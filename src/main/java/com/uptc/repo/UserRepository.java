@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findUserByEmail(String email);
+    boolean existsByEmail(String email);
 
     @Modifying
     @Query("UPDATE User a SET a.enabled = TRUE WHERE a.id = ?1")

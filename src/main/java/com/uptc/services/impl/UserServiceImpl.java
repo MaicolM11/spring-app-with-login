@@ -28,7 +28,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public boolean existEmail(String email) {
-        return userRepository.findUserByEmail(email).isPresent();
+        return userRepository.existsByEmail(email);
     }
 
     @Override
