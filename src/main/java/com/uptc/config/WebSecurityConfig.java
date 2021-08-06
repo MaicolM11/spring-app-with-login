@@ -35,12 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/login").permitAll()
-                //  .antMatchers("/api/**").hasRole("")
-                .anyRequest().authenticated()
-            ;
-        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .antMatchers("/swagger-ui/**","/swagger-ui.html", "/v3/api-docs/**").permitAll() // swagger doc
+                .antMatchers("/","/index.html","/auth/**").permitAll()                    // signup and signin
+                .anyRequest().authenticated();
+            
+        http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class); // token filter
     }
 
     @Bean

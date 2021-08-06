@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -29,7 +30,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(Url.AUTH_RESOURCE)
 @AllArgsConstructor
-public class AuthResource {
+@Tag(name = "Authorization")
+public class AuthController {
 
     private final IAuthService authService;
 

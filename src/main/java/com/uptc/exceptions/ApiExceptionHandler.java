@@ -49,8 +49,9 @@ public class ApiExceptionHandler {
             org.springframework.web.bind.MissingServletRequestParameterException.class,
             org.springframework.web.server.ServerWebInputException.class,
             org.springframework.http.converter.HttpMessageNotReadableException.class,
-            org.springframework.web.HttpMediaTypeNotSupportedException.class
-    })
+            org.springframework.web.HttpMediaTypeNotSupportedException.class,
+            org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class
+        })
     public ErrorMessage badRequest(Exception exception, WebRequest request) {
         return new ErrorMessage(exception, HttpStatus.BAD_REQUEST.value());
     }
