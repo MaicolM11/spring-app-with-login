@@ -1,6 +1,5 @@
 package com.uptc.repo;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -32,18 +34,18 @@ public class EmployeeRepoTest {
     void appendEmployeeTest(){
         Employee e = new Employee("Juan", "Caicedo", "Juan@gmail.com", LocalDate.of(2000, 10, 10));
         repository.save(e);
-        Optional<Employee> e2 = repository.findByEmail(e.getEmail());
-        assertEquals(e2.isPresent(), true);
-        assertEquals(e.getEmail(), e2.get().getEmail());
-        assertThat(e2.get().getId()).isGreaterThan(0);
+        Optional<Employee> result = repository.findByEmail(e.getEmail());
+        assertTrue(result.isPresent());
+        assertEquals(e.getEmail(), result.get().getEmail());
+        assertThat(result.get().getId()).isGreaterThan(0);
     }
 
     @Test
     @Order(2)
     void getEmployeeTest(){
         Optional<Employee> employee = repository.findById(1L);
-        assertEquals(employee.isPresent(), true);
-        assertThat(employee.get().getId()).isEqualTo(1L);
+        assertTrue(employee.isPresent());
+        assertEquals(1L, employee.get().getId());
     }
 
     @Test
@@ -60,7 +62,7 @@ public class EmployeeRepoTest {
         Employee employee = repository.findById(1L).get();
         employee.setEmail("ram@gmail.com");
         Employee employeeUpdated =  repository.save(employee);
-        assertThat(employeeUpdated.getEmail()).isEqualTo("ram@gmail.com");
+        assertEquals("ram@gmail.com", employeeUpdated.getEmail());
     }
 
     @Test
@@ -70,7 +72,7 @@ public class EmployeeRepoTest {
         repository.delete(employee);
         //repository.deleteById(1L);
         Optional<Employee> optionalEmployee = repository.findByEmail("ram@gmail.com");
-        assertThat(optionalEmployee.isEmpty()).isTrue();
+        assertFalse(optionalEmployee.isPresent());
     }
     
 }

@@ -32,8 +32,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void enableUser(Integer id) {
-        userRepository.enableUser(id);
+    public boolean enableUser(Integer id) {
+        return userRepository.enableUser(id) == 1;
     }
 
     @Override

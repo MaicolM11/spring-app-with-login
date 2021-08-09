@@ -14,7 +14,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openApiConfig() {
-        final String securitySchemeName = "Auth JTW";
+        final String securitySchemeName = "Auth JWT";
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()

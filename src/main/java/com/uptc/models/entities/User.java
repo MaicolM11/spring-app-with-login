@@ -1,8 +1,8 @@
 package com.uptc.models.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,6 +50,7 @@ public class User {
         this.fullname = fullname;
         this.email = email;
         this.password = password;
+        roles = new ArrayList<>();
     }
 
     public static UserDetails build(User u) {
@@ -58,10 +59,11 @@ public class User {
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = roles.stream()
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>(); 
+        roles.stream()
                     .map(x-> x.getRole().toString())
                     .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
+                    .forEach(authorities::add);
         return authorities;
     }
 

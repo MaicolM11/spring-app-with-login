@@ -28,7 +28,7 @@ public class EmployeeTest {
     @Test
     void yearsOfSeniorityTest(){
         Employee employee = new Employee("pepe", "perez", "lol@gmail.com", LocalDate.of(2003, 01, 01));
-        assertEquals(employee.getYearsOfSeniority(), 18);
+        assertEquals(18, employee.getYearsOfSeniority());
     }
     
     @Test
@@ -39,7 +39,7 @@ public class EmployeeTest {
         employee.setEmail("bad"); // +1 email format
         employee.setFirstName(""); // +2 empty and size range
         violations = validator.validate(employee);
-        assertEquals(4, violations.size());  // by hiredate
+        assertEquals(4, violations.size()); 
     }
 
     
